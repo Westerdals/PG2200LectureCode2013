@@ -19,6 +19,17 @@ namespace Lecture4Examples
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private const int player_movement_speed = 4;
+        private KeyboardState _currentState;
+        private KeyboardState _previousState;
+
+        private Texture2D _characterArt;
+        private Texture2D _stoneArt;
+
+        private Rectangle _characterBox;
+        private Rectangle _previousCharacterBox;
+        private List<Rectangle> _stones = new List<Rectangle>();
+
         public CollisionAndInputGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,9 +44,12 @@ namespace Lecture4Examples
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+            _currentState = Keyboard.GetState();
+
+            _stones.Add(new Rectangle(200, 140, 80,80));
+            _stones.Add(new Rectangle(110, 300, 80,80));
+            _stones.Add(new Rectangle(400, 0, 80,80));
         }
 
         /// <summary>
@@ -46,8 +60,10 @@ namespace Lecture4Examples
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+          
+            _characterArt = Content.Load<Texture2D>("Character Boy");
+            _stoneArt = Content.Load<Texture2D>("Stone Block");
+            _characterBox = _characterArt.Bounds;
         }
 
         /// <summary>
@@ -66,13 +82,64 @@ namespace Lecture4Examples
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            _previousState = _currentState;
+            _currentState = Keyboard.GetState();
 
-            // TODO: Add your update logic here
+            _previousCharacterBox = _characterBox;
 
+            if(_currentState.IsKeyDown(Keys.LeftShift) && 
+                _currentState.IsKeyDown(Keys.Escape))
+                Exit();
+
+            if (_currentState.IsKeyDown(Keys.Up))
+                _characterBox.Y -= player_movement_speed;
+            if (_currentState.IsKeyDown(Keys.Right))
+                _characterBox.X += player_movement_speed;
+            if (_currentState.IsKeyDown(Keys.Left))
+                _characterBox.X -= player_movement_speed;
+            if (_currentState.IsKeyDown(Keys.Down))
+                _characterBox.Y += player_movement_speed;
+
+            doCollisionDetection();
+
+            
             base.Update(gameTime);
+        }
+
+
+        void doCollisionDetection()
+        {
+            foreach (Rectangle stone in _stones)
+            {
+                if (stone.Intersects(_characterBox))
+                {
+                    _characterBox = _previousCharacterBox;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check if key is pressed down this exact frame.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool IsKeyPressed(Keys key)
+        {
+            if (_currentState.IsKeyDown(key) && _previousState.IsKeyUp(key)) 
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if key is released this exact frame.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool IsKeyReleased(Keys key)
+        {
+            if (_currentState.IsKeyUp(key) && _previousState.IsKeyDown(key))
+                return true;
+            return false; 
         }
 
         /// <summary>
@@ -81,9 +148,15 @@ namespace Lecture4Examples
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Pink);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(_characterArt, _characterBox, Color.White);
+            foreach (Rectangle stone in _stones)
+            {
+                spriteBatch.Draw(_stoneArt, stone, Color.White);
+            }
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
