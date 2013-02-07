@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lecture4Examples", "LectureExamples\LectureExamples\Lecture4Examples.csproj", "{3EA35BD5-6D52-4F97-8039-C54EAF5800AA}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Lecture4ExamplesContent", "LectureExamples\LectureExamplesContent\Lecture4ExamplesContent.contentproj", "{B4EACE6C-38D9-4599-A4F2-62388F623523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lecture4ExamplesContent", "LectureExamples\LectureExamplesContent\Lecture4ExamplesContent.contentproj", "{B4EACE6C-38D9-4599-A4F2-62388F623523}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LectureExamples5", "LectureExamples5\LectureExamples5\LectureExamples5.csproj", "{C4ADE0E9-3529-4D38-B9DA-03EB638894E8}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "LectureExamples5Content", "LectureExamples5\LectureExamples5Content\LectureExamples5Content.contentproj", "{CC0362A9-3C08-4AFA-BAFD-0FFF2BCA446E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,12 @@ Global
 		{3EA35BD5-6D52-4F97-8039-C54EAF5800AA}.Release|x86.Build.0 = Release|x86
 		{B4EACE6C-38D9-4599-A4F2-62388F623523}.Debug|x86.ActiveCfg = Debug|x86
 		{B4EACE6C-38D9-4599-A4F2-62388F623523}.Release|x86.ActiveCfg = Release|x86
+		{C4ADE0E9-3529-4D38-B9DA-03EB638894E8}.Debug|x86.ActiveCfg = Debug|x86
+		{C4ADE0E9-3529-4D38-B9DA-03EB638894E8}.Debug|x86.Build.0 = Debug|x86
+		{C4ADE0E9-3529-4D38-B9DA-03EB638894E8}.Release|x86.ActiveCfg = Release|x86
+		{C4ADE0E9-3529-4D38-B9DA-03EB638894E8}.Release|x86.Build.0 = Release|x86
+		{CC0362A9-3C08-4AFA-BAFD-0FFF2BCA446E}.Debug|x86.ActiveCfg = Debug|x86
+		{CC0362A9-3C08-4AFA-BAFD-0FFF2BCA446E}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

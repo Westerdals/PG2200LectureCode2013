@@ -29,6 +29,7 @@ namespace Lecture4Examples
         private Rectangle _characterBox;
         private Rectangle _previousCharacterBox;
         private List<Rectangle> _stones = new List<Rectangle>();
+        
 
         public CollisionAndInputGame()
         {
