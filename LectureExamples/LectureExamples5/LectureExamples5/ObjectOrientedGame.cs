@@ -20,11 +20,22 @@ namespace LectureExamples5
         SpriteBatch spriteBatch;
 
         List<DrawData> _toDraw = new List<DrawData>();
+        List<GameObject> _gameObjects = new List<GameObject>();
+        private GameObject _player;
 
         public ObjectOrientedGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+        }
+
+        protected override void Initialize()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                _gameObjects.Add(new GameObject());
+            }
+            base.Initialize();
         }
 
         /// <summary>
@@ -45,6 +56,19 @@ namespace LectureExamples5
                 Rectangle temp = _toDraw[i].Destination;
                 temp.X += i*_toDraw[i].Destination.Width;
                 _toDraw[i].Destination = temp;
+
+                _gameObjects[i].Drawable = _toDraw[i];
+                _gameObjects[i].Position = _toDraw[i].Position;
+            }
+
+            _player = new PlayerCharacter();
+            _player.Drawable = new DrawData(
+                Content.Load<Texture2D>("Character Cat Girl"));
+            _gameObjects.Add(_player);
+
+            foreach (GameObject toInitialize in _gameObjects)
+            {
+                toInitialize.Initialize(this);
             }
         }
 
@@ -67,9 +91,10 @@ namespace LectureExamples5
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            // TODO: Add your update logic here
-
+            foreach (GameObject toUpdate in _gameObjects)
+            {
+                toUpdate.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -82,12 +107,11 @@ namespace LectureExamples5
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-
-            foreach (DrawData toDraw in _toDraw)
+            foreach (GameObject toDraw in _gameObjects)
             {
-                drawElement(toDraw);
+                if(toDraw.Drawable != null)
+                    drawElement(toDraw.Drawable);
             }
-
             spriteBatch.End();
 
             base.Draw(gameTime);
