@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LectureExamples5", "Lecture
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LectureExamples5Content", "LectureExamples5\LectureExamples5Content\LectureExamples5Content.contentproj", "{CC0362A9-3C08-4AFA-BAFD-0FFF2BCA446E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionLecture5", "..\..\Forelesning 5\Løsning\WindowsGame1\WindowsGame1\SolutionLecture5.csproj", "{ED6ED416-3B5A-4741-9082-079D54F85030}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionLecture5", "Lecture5Solution\SolutionLecture5.csproj", "{ED6ED416-3B5A-4741-9082-079D54F85030}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
