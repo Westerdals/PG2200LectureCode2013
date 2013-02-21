@@ -75,6 +75,8 @@
     <Compile Include="Bonfire.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="ICatchFire.cs" />
+    <Compile Include="IEmitSound.cs" />
+    <Compile Include="PianoPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Lecture6ExampleGame.cs" />

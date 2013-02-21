@@ -28,9 +28,7 @@ namespace Lecture6Examples
         private Vector2 _mouseInfoTextSize;
 
         List<GameObject> _gameObjects = new List<GameObject>();
-
-        private SoundEffect _music;
-
+        private AudioListener _listener;
 
         public Lecture6ExampleGame()
         {
@@ -51,9 +49,11 @@ namespace Lecture6Examples
             {
                 _gameObjects.Add(new GameObject());
                 _gameObjects.Add(new Bonfire());
-                
-
             }
+            _listener = new AudioListener();
+            _listener.Position = Vector3.Zero; //It's already set to this but never mind :)
+            _listener.Forward = Vector3.Forward;
+            _listener.Up = Vector3.Up;
             base.Initialize();
         }
 
@@ -67,7 +67,7 @@ namespace Lecture6Examples
             spriteBatch = new SpriteBatch(GraphicsDevice);
             _arialFont = Content.Load<SpriteFont>("Arial");
             _textHeight = _arialFont.MeasureString("H").Y;
-            _music = Content.Load<SoundEffect>("piano");
+            _gameObjects.Add(new PianoPlayer(this));
         }
 
         /// <summary>
@@ -85,9 +85,10 @@ namespace Lecture6Examples
             _mouseInfoTextSize.X = _mouseInfoTextSize.X / 2.0f;
             _mouseInfoTextSize.Y = 0;
 
-            if (_mousePos.X > 300)
+            foreach (GameObject gameObject in _gameObjects)
             {
-                foreach (GameObject gameObject in _gameObjects)
+                gameObject.Update(gameTime);
+                if (_mousePos.X > 300)
                 {
                     ICatchFire burnable = gameObject as ICatchFire;
                     if (burnable != null)
@@ -95,7 +96,12 @@ namespace Lecture6Examples
                         burnable.LightOnFire();
                     }
                 }
+
+                IEmitSound player = gameObject as IEmitSound;
+                if(player != null)
+                    player.PlaySounds(_listener);
             }
+            
         }
 
         /// <summary>
