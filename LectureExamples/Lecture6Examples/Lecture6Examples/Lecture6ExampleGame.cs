@@ -27,6 +27,11 @@ namespace Lecture6Examples
         private string _mouseInfo;
         private Vector2 _mouseInfoTextSize;
 
+        List<GameObject> _gameObjects = new List<GameObject>();
+
+        private SoundEffect _music;
+
+
         public Lecture6ExampleGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,7 +47,13 @@ namespace Lecture6Examples
         /// </summary>
         protected override void Initialize()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                _gameObjects.Add(new GameObject());
+                _gameObjects.Add(new Bonfire());
+                
 
+            }
             base.Initialize();
         }
 
@@ -56,7 +67,7 @@ namespace Lecture6Examples
             spriteBatch = new SpriteBatch(GraphicsDevice);
             _arialFont = Content.Load<SpriteFont>("Arial");
             _textHeight = _arialFont.MeasureString("H").Y;
-
+            _music = Content.Load<SoundEffect>("piano");
         }
 
         /// <summary>
@@ -73,6 +84,18 @@ namespace Lecture6Examples
             _mouseInfoTextSize = _arialFont.MeasureString(_mouseInfo);
             _mouseInfoTextSize.X = _mouseInfoTextSize.X / 2.0f;
             _mouseInfoTextSize.Y = 0;
+
+            if (_mousePos.X > 300)
+            {
+                foreach (GameObject gameObject in _gameObjects)
+                {
+                    ICatchFire burnable = gameObject as ICatchFire;
+                    if (burnable != null)
+                    {
+                        burnable.LightOnFire();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -83,8 +106,13 @@ namespace Lecture6Examples
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            spriteBatch.DrawString(_arialFont, "Hello world!",Vector2.Zero, Color.Pink);
-            spriteBatch.DrawString(_arialFont,_mouseInfo, _mousePos - _mouseInfoTextSize, Color.Red);
+
+            for (int i = 0; i < _gameObjects.Count; i++)
+            {
+                spriteBatch.DrawString(_arialFont, _gameObjects[i].GetState(),
+                    new Vector2(0,i*_textHeight),Color.Red);
+            }
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
