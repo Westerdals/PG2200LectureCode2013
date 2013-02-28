@@ -13,7 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionLecture5", "Lecture
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lecture6Examples", "Lecture6Examples\Lecture6Examples\Lecture6Examples.csproj", "{6ACC4765-D087-4FF0-9426-675596AC75F1}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Lecture6ExamplesContent", "Lecture6Examples\Lecture6ExamplesContent\Lecture6ExamplesContent.contentproj", "{F5E48649-FEB2-44B5-A71D-4988D18B0E6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lecture6ExamplesContent", "Lecture6Examples\Lecture6ExamplesContent\Lecture6ExamplesContent.contentproj", "{F5E48649-FEB2-44B5-A71D-4988D18B0E6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lecture7Examples", "Lecture7Examples\Lecture7Examples\Lecture7Examples.csproj", "{0E807AAB-FBC3-43CF-A6AF-B05CCC4340C5}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Lecture7ExamplesContent", "Lecture7Examples\Lecture7ExamplesContent\Lecture7ExamplesContent.contentproj", "{630B8DBA-C8DD-4367-9076-4D897E2FA4C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +47,12 @@ Global
 		{6ACC4765-D087-4FF0-9426-675596AC75F1}.Release|x86.Build.0 = Release|x86
 		{F5E48649-FEB2-44B5-A71D-4988D18B0E6E}.Debug|x86.ActiveCfg = Debug|x86
 		{F5E48649-FEB2-44B5-A71D-4988D18B0E6E}.Release|x86.ActiveCfg = Release|x86
+		{0E807AAB-FBC3-43CF-A6AF-B05CCC4340C5}.Debug|x86.ActiveCfg = Debug|x86
+		{0E807AAB-FBC3-43CF-A6AF-B05CCC4340C5}.Debug|x86.Build.0 = Debug|x86
+		{0E807AAB-FBC3-43CF-A6AF-B05CCC4340C5}.Release|x86.ActiveCfg = Release|x86
+		{0E807AAB-FBC3-43CF-A6AF-B05CCC4340C5}.Release|x86.Build.0 = Release|x86
+		{630B8DBA-C8DD-4367-9076-4D897E2FA4C4}.Debug|x86.ActiveCfg = Debug|x86
+		{630B8DBA-C8DD-4367-9076-4D897E2FA4C4}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
