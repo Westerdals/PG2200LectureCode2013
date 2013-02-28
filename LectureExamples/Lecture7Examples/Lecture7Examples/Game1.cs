@@ -20,6 +20,12 @@ namespace Lecture7Examples
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private Texture2D _spriteSheet;
+        private DrawData _sheet;
+        private float _animationTimer;
+        private int _frame;
+        private int _currentAnim = 1;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -49,6 +55,9 @@ namespace Lecture7Examples
         protected override void LoadContent()
         {
             Texture2D blockArt = Content.Load<Texture2D>("Brown Block");
+            _spriteSheet = Content.Load<Texture2D>("spritesheet");
+
+
             IDrawSprites renderer = (IDrawSprites)
                                     Services.GetService(typeof (IDrawSprites));
             for (int i = 0; i < 20; i++)
@@ -60,6 +69,10 @@ namespace Lecture7Examples
                         blockArt.Bounds.Width,//Width
                         blockArt.Bounds.Height)));//Height
             }
+            _sheet = new DrawData(_spriteSheet);
+            _sheet.Source = new Rectangle(0,0,24,32);
+            _sheet.Destination = new Rectangle(0,0,24*4,32*4);
+            renderer.AddDrawable(_sheet);
         }
 
         /// <summary>
@@ -82,7 +95,16 @@ namespace Lecture7Examples
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            _animationTimer += (float) gameTime.ElapsedGameTime.TotalSeconds;
+            if (_animationTimer >= 0.5f)
+            {
+                _frame++;
+                _animationTimer = 0f;
+                if (_frame == 3)
+                    _frame = 0;
+                _sheet.Source = new Rectangle(_frame * 24,_currentAnim*32,24,32);
+            }
+            
 
             base.Update(gameTime);
         }
