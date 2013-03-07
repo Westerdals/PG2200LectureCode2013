@@ -9,14 +9,20 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Lecture7Examples.Animation;
 
 namespace Lecture7Examples
 {
+    public delegate void EmptyDelegate();
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+
+        public event EmptyDelegate OnEndRun;
+        public event EmptyDelegate OnBeginRun;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -25,6 +31,8 @@ namespace Lecture7Examples
         private float _animationTimer;
         private int _frame;
         private int _currentAnim = 1;
+
+        List<AnimationController> _controllers = new List<AnimationController>(); 
 
         public Game1()
         {
@@ -46,6 +54,8 @@ namespace Lecture7Examples
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            OnEndRun += endRunEventHandler;
+            OnEndRun += Exit;
         }
 
         /// <summary>
@@ -73,6 +83,23 @@ namespace Lecture7Examples
             _sheet.Source = new Rectangle(0,0,24,32);
             _sheet.Destination = new Rectangle(0,0,24*4,32*4);
             renderer.AddDrawable(_sheet);
+
+           AnimationDrawData animated = new AnimationDrawData(
+               _spriteSheet, new Rectangle(0,0, 24, 32),
+               new Point(100,100),24*4,32*4,3);
+            renderer.AddDrawable(animated);
+            _controllers.Add(
+                new AnimationController(animated, 0.3f));
+        }
+
+        public void endRunEventHandler()
+        {
+            Console.WriteLine("End run!");
+        }
+
+        public void quitGameEventHandler()
+        {
+            Exit();
         }
 
         /// <summary>
@@ -103,6 +130,19 @@ namespace Lecture7Examples
                 if (_frame == 3)
                     _frame = 0;
                 _sheet.Source = new Rectangle(_frame * 24,_currentAnim*32,24,32);
+            }
+
+            foreach (AnimationController controller in _controllers)
+            {
+                controller.Update(gameTime);
+            }
+
+            KeyboardState keyState = Keyboard.GetState();
+            
+            if (keyState.IsKeyDown(Keys.Space))
+            {
+                if(OnEndRun != null)
+                    OnEndRun();
             }
             
 
