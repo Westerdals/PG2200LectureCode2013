@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.Xml.Serialization;
 
+using Lecture7Examples.Animation;
+using Lecture7Examples;
+
 namespace Lecture9Examples
 {
     /// <summary>
@@ -25,10 +28,23 @@ namespace Lecture9Examples
         public int frame_width = 24;
         public int frame_height = 32;
 
+        private AnimationController _controller;
+        private AnimationDrawData _drawable;
+
+        private KeyboardState _prevState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            SpriteComponent spriteDrawer = new SpriteComponent(this);
+            Services.AddService(typeof(IDrawSprites), spriteDrawer);
+            Components.Add(spriteDrawer);
+
+            AnimationLoader animationLoader = new AnimationLoader(this, null);
+            Services.AddService(typeof(AnimationLoader), animationLoader);
+            
         }
 
         /// <summary>
@@ -39,7 +55,7 @@ namespace Lecture9Examples
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _prevState = Keyboard.GetState();
 
             base.Initialize();
         }
@@ -53,7 +69,13 @@ namespace Lecture9Examples
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            _drawable =
+                ((AnimationLoader) Services.GetService(
+                    typeof (AnimationLoader))).CreateAnimationDrawable("Purple_Up");
+            _controller = new AnimationController(_drawable, 0.2f);
+            
+            ((IDrawSprites)Services.GetService(typeof(IDrawSprites))
+                ).AddDrawable(_drawable);
         }
 
         /// <summary>
@@ -75,9 +97,22 @@ namespace Lecture9Examples
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+            KeyboardState currentState = Keyboard.GetState();
+            _controller.Update(gameTime);
 
-            // TODO: Add your update logic here
-
+            if(currentState.IsKeyDown(Keys.D) && _prevState.IsKeyUp(Keys.D))
+            {
+                ((AnimationLoader) Services.GetService(
+                    typeof (AnimationLoader))).SetupAnimation(_drawable,
+                                                              "Purple_Right");
+            }
+            if(currentState.IsKeyDown(Keys.A) && _prevState.IsKeyUp(Keys.A))
+            {
+                ((AnimationLoader) Services.GetService(
+                    typeof (AnimationLoader))).SetupAnimation(_drawable,
+                                                              "Purple_Left");
+            }
+            _prevState = currentState;
             base.Update(gameTime);
         }
 
@@ -96,6 +131,9 @@ namespace Lecture9Examples
 
         protected override void EndRun()
         {
+            base.EndRun();
+            return;
+            
             List<AnimationPersistentInfo> animations =
                 new List<AnimationPersistentInfo>();
             animations.Add(new AnimationPersistentInfo
@@ -130,7 +168,6 @@ namespace Lecture9Examples
                 typeof(List<AnimationPersistentInfo>));
             serializer.Serialize(stream, animations);
             stream.Close();
-            base.EndRun();
         }
     }
 }

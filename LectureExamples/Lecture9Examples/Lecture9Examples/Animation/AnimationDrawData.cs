@@ -25,12 +25,13 @@ namespace Lecture7Examples.Animation
                 if (_currentFrame >= NumberOfFrames)
                     _currentFrame = 0;
                 Rectangle newSource = Source;
-                newSource.X = _currentFrame*newSource.Width;
+                newSource.X = _startingOffset.X + _currentFrame*newSource.Width;
                 Source = newSource;
             }
 
         }
         private int _currentFrame;
+        private Point _startingOffset;
 
         public AnimationDrawData(Texture2D animationSheet,
             Rectangle source,Point position, 
@@ -41,6 +42,15 @@ namespace Lecture7Examples.Animation
         {
             Source = source;
             NumberOfFrames = numFrames;
+            _startingOffset = new Point(source.X, source.Y);
+        }
+
+        public void ChangeAnimationData(Texture2D animationSheet, Rectangle source, int numFrames)
+        {
+            Art = animationSheet;
+            Source = source;
+            NumberOfFrames = numFrames;
+            _startingOffset = new Point(source.X, source.Y);
         }
 
     }
