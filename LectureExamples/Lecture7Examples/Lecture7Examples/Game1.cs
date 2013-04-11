@@ -52,11 +52,11 @@ namespace Lecture7Examples
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
             OnEndRun += endRunEventHandler;
             OnEndRun += Exit;
         }
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
