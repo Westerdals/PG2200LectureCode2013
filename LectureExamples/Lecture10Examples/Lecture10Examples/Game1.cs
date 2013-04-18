@@ -17,6 +17,7 @@ namespace Lecture10Examples
     public struct GameConfig
     {
         public float PlayerSpeed;
+        public int NumberOfTiles;
     }
 
     /// <summary>
@@ -30,6 +31,8 @@ namespace Lecture10Examples
         private Vector2 _playerPos;
         private Texture2D _playerArt;
         private Texture2D _grassArt;
+
+        private List<Vector2> _grassTiles = new List<Vector2>(); 
 
         private KeyboardState _prevState;
         private KeyboardState _curState;
@@ -65,7 +68,7 @@ namespace Lecture10Examples
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
             _playerArt = Content.Load<Texture2D>("Character Cat Girl");
             _grassArt = Content.Load<Texture2D>("Grass Block");
         }
@@ -101,6 +104,11 @@ namespace Lecture10Examples
         {
             LoadConfig("Config.xml");
             _playerPos = Vector2.Zero;
+            _grassTiles.Clear();
+            for (int i = 0; i < _config.NumberOfTiles; i++)
+            {
+                _grassTiles.Add(new Vector2(i*_grassArt.Width,0));
+            }
         }
 
         public bool IsKeyPressed(Keys key)
@@ -149,8 +157,11 @@ namespace Lecture10Examples
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            DrawElement(_grassArt, Vector2.Zero);
-
+            for (int i = 0; i < _grassTiles.Count; i++)
+            {
+                DrawElement(_grassArt, _grassTiles[i]);
+            }
+            
             DrawElement(_playerArt, _playerPos);
             spriteBatch.End();
 
